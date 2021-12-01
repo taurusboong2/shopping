@@ -1,0 +1,31 @@
+$mainColor : #ff0000;
+
+.red {
+    color:#333;
+}
+.my-alert {
+    background: #eee;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+}
+.my-alert2 {
+    @extend .my-alert;
+    background: #ffe591;
+}
+
+@mixin text {
+    
+}
+.my-alert p {
+    margin-bottom: 0;
+}
+.appear-enter {
+    opacity: 0;
+}
+.appear-enter-active {
+    opacity: 1;
+    transition: all .5s;
+}
