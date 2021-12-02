@@ -4,6 +4,7 @@ import { Navbar, Container, NavDropdown, Nav, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import './Detail.scss';
 import {stockContext} from './App';
+import { connect } from 'react-redux';
 
 import { CSSTransition } from "react-transition-group";
 
@@ -86,7 +87,10 @@ function Detail(props) {
 
           <Info stock={ props.stock }></Info>
 
-          <button className="btn btn-danger">주문하기</button>
+          <button className="btn btn-danger" onClick={()=>{
+            props.dispatch({ type : '항목추가', payload :  { id : 4, name : '초록신발', quan : 1 } });
+            history.push('/cart');
+          }}>주문하기</button>
           &nbsp;
           <button className="btn btn-danger" onClick={ () => {
             history.push('/');
@@ -100,19 +104,19 @@ function Detail(props) {
           <Nav.Link eventKey="link-0" onClick={()=>{
             aniSwitchSet(false);
             clickedTabSet(0)
-          }}>Active</Nav.Link>
+          }}>상품설명</Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link eventKey="link-1" onClick={()=>{
             aniSwitchSet(false);
             clickedTabSet(1)
-          }}>Option 2</Nav.Link>
+          }}>배송정보</Nav.Link>
         </Nav.Item>
         <Nav.Item>
           <Nav.Link eventKey="link-2" onClick={()=>{
             aniSwitchSet(false);
             clickedTabSet(2)
-          }}>Option 3</Nav.Link>
+          }}>사이즈</Nav.Link>
         </Nav.Item>
       </Nav>
 
@@ -146,4 +150,12 @@ function Info(props){
   )
 }
 
-export default Detail;
+function toProps(state) {
+  return {
+    state: state.reducer,
+    alert: state.reducer2
+  }
+}
+
+export default connect(toProps)(Detail)
+// export default Detail;

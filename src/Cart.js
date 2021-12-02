@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Table } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 
 function Cart(props) {
 
-  let [cartData, cartDataSet] = useState(props.state);
+  let state = useSelector((state) => state);
+  let dispatch = useDispatch();
 
   return (
     <div>
@@ -19,33 +20,51 @@ function Cart(props) {
         </thead>
         <tbody>
           {
-            cartData.map((a, i)=>{
-              return <CartList cartData={ a } i={ i } key={ i } />
+            state.reducer.map((a, i) => {
+              return (
+                <tr key={i}>
+                  <td>{a.id}</td>
+                  <td>{a.name}</td>
+                  <td>{a.quan}</td>
+                  <td>
+                    <button onClick={() => {
+                      dispatch({ type: '수량증가', payload : { name : 'kim' } })
+                    }}>+</button>
+                    &nbsp;
+                    <button onClick={() => {
+                      dispatch({ type: '수량감소' })
+                    }}>-</button>
+                  </td>
+                </tr>
+              )
             })
           }
         </tbody>
       </Table>
+
+      { props.alert === true
+        ?(
+          <div className="my-alert2">
+            <p>지금 구매하시면 신규할인 20%</p>
+            <button onClick={()=>{
+              props.dispatch({ type: 'alertClose' })
+            }}>닫기</button>
+          </div>
+        )
+        : null
+      }
+
     </div>
   )
 }
 
-function CartList(props) {
-
-  return (
-    <tr>
-      <td>{ props.cartData.id }</td>
-      <td>{props.cartData.name}</td>
-      <td>{props.cartData.quan}</td>
-      <td><button className="btn btn-primary">주문하기</button></td>
-    </tr>
-  )
-}
-
-function toProps(state) {
+/* function toProps(state) {
   return {
-    state: state
+    state: state.reducer,
+    alert: state.reducer2
   }
 }
 
-export default connect(toProps)(Cart)
-//export default Cart;
+export default connect(toProps)(Cart) */
+
+export default Cart;
